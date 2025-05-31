@@ -1,0 +1,200 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Attendance Website</title>
+    <link rel ="stylesheet" href="{%static 'css/prostyle.css'%}">
+    
+    <script src="https://kit.fontawesome.com/60c5666684.js" crossorigin="anonymous"></script>
+</head>
+<body>
+
+    
+<div id="header">
+    <div class="container">
+        <nav>
+            <img src="{%static 'images/logo.png'%}" class="logo">
+            <ul id="sidemenu">
+                <li><a href="{% url 'stylesheet' %}" onclick="closemenu()">Attendance</a></li>
+                <li><a href="#services" onclick="closemenu()">Services</a></li>
+                <li><a href="{% url 'contact' %}" onclick="closemenu()">Contact</a></li>
+                <li><a href="{% url 'login_signup' %}" onclick="closemenu()">Log in/Sign Up</a></li>
+                <li><a href="#About Us" onclick="closemenu()">About Us</a></li>
+                <i class="fa-solid fa-xmark" onclick="closemenu()"></i>
+            </ul>
+            <i class="fa-solid fa-bars" onclick="openmenu()"></i>
+        </nav>
+    </div>
+</div>
+
+{% block content %}
+<div id="intro">
+    <div class="container">
+        <div class="col">
+            <div class="col-1">
+                <h2>
+                    Revolutionizing Attendance with Face Recognition
+                </h2>
+                <p>
+                    Transform your attendance management system into an effortless, error-free process with SmartFace's cutting-edge 
+                    face recognition technology. Ideal for colleges and universities aiming to modernize their infrastructure and 
+                    streamline operations.
+                </p>
+                <a href="{% url 'login_signup' %}" class="touch">Get started today</a>
+            </div>
+            <div class="col-2">
+                <a href="#About Us"><img src="{% static 'images/background.png' %}"></a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock%}
+
+<div id="services">
+    <div class="container">
+        <p class="c1">Made for educational institutions globally</p>
+    </div>
+    <div class="edu">
+        <span>Education</span>
+        <span>School</span>
+        <span>College</span>
+        <span>Academic</span>
+        <span>University</span>
+    </div>
+    <div class="vol">
+        <div class="vol-1">
+            <p>Easy and Reliable</p>
+            <h2>Transform Your Attendance System</h2>
+        </div>
+        <div class="vol-2">
+            <p>Our face recognition system offers a seamless solution for attendance management. 
+                It's fast, accurate, and integrates easily with current systems. With SmartFace, manual attendance tracking is 
+                a thing of the past. Enjoy improved efficiency and accuracy across the board.
+            </p>
+            <a href="{% url 'contact' %}" class="touch">Get in touch</a>
+        </div>
+    </div>
+</div>
+
+<div id="start">
+    <div class="container">
+        <div class="tui">
+            <P>Getting Started is a Breeze</P>
+        </div>
+        <div class="n">
+            <p class="num">01</p>
+            <h1>Sign Up Online</h1>
+            <h2>Register your institution on our platform.</h2>
+            <p class="num">02</p>
+            <h1>Upload Required Information</h1>
+            <h2>Easily add information for recognition.</h2>
+            <p class="num">03</p>
+            <h1>And All Set !</h1>
+            <h2>Start using the system with immediate effect.</h2>
+        </div>
+    </div>
+</div>
+
+<div id="About Us">
+    <div class="container">
+            <h1 class="sub-title">About Us</h1>
+            <div class="info-list">
+                <div class="Information">
+                    <img src="{%static 'images/Sarbik.jpg'%}">
+                    <a href="{% url 'sarbik' %}">
+                        <div class="layer">
+                            <h1>Sarbik</h1>
+                        </div>
+                    </a>
+                </div>
+
+                <div class="Information">
+                    <img src="{%static 'images/Tania.jpg'%}">
+                    <a href="{% url 'tania' %}">
+                        <div class="layer">
+                            <h1>Tania</h1>
+                        </div>
+                    </a>
+                </div>
+
+                <div class="Information">
+                    <img src="{%static 'images/Sarbani.jpg'%}">
+                    <a href="{% url 'sarbani' %}">
+                        <div class="layer">
+                            <h1>Sarbani</h1>
+                        </div>
+                    </a>
+                </div>
+
+                <div class="Information">
+                    <img src="{%static 'images/Manish.jpg'%}">
+                    <a  href="{% url 'manish' %}">
+                        <div class="layer">         
+                            <h1>Manish</h1>
+                        </div>
+                    </a>
+                </div>
+
+                <div class="Information">
+                    <img src="{%static 'images/Deblina.jpg'%}">
+                    <a  href="{% url 'deblina' %}">
+                        <div class="layer">
+                            <h1>Deblina</h1>
+                        </div>
+                    </a>
+                </div>
+            </div>
+    </div>
+</div>
+
+<script>
+    var tablinks = document.getElementsByClassName("tab-links");
+    var tabcontains = document.getElementsByClassName("tab-contains");
+    
+    function opentab(tabname){
+        for(tablink of tablinks){
+            tablink.classList.remove("active-link");
+        }
+        for(tabcontain of tabcontains){
+            tabcontain.classList.remove("active-tab");
+        }
+        event.currentTarget.classList.add("active-link");
+        document.getElementById(tabname).classList.add("active-tab");
+    }
+</script>
+
+<script>
+    var sidemenu = document.getElementById("sidemenu");
+
+    function openmenu(){
+        sidemenu.style.right="0";
+    }
+
+    function closemenu(){
+        sidemenu.style.right = "-200px";
+    }
+</script>
+<script>
+    const scriptURL = 'https://script.google.com/macros/s/AKfycbwbkW-cjh0dNhASgtb78La1NOxqk3qqKJkFNQ8_bRTSlpWWqcsXWg3lF3UQ6hFc8e4Y/exec'
+    const form = document.forms['submit-to-google-sheet']
+    const msg = document.getElementById("msg")
+
+    form.addEventListener('submit', e => {
+      e.preventDefault()
+      fetch(scriptURL, { method: 'POST', body: new FormData(form)})
+        .then(response =>{
+            msg.innerHTML = "Message Sent Successfully"
+            setTimeout(function(){
+                msg.innerHTML = ""
+            },5000)
+            form.reset()
+        })
+        .catch(error => console.error('Error!', error.message))
+    })
+  </script>
+
+</body>
+</html>

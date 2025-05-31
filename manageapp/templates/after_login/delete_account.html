@@ -1,0 +1,32 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Confirm Delete</title>
+  <link rel="stylesheet" href="{% static 'css/delete.css' %}">
+</head>
+<body>
+
+  <div class="form-container">
+    <h2>Delete Account</h2>
+    <p>This action cannot be undone. Please enter your password to confirm account deletion.</p>
+
+    <form method="POST">
+      {% csrf_token %}
+      <input type="password" name="password" id="password" placeholder="Enter your password" required>
+      <button type="submit">Delete My Account</button>
+    </form>
+
+    <a href="{% url 'stylesheet' %}" class="home-button">Cancel and go back</a>
+
+    {% if messages %}
+      {% for message in messages %}
+        <p style="color: #ff0400; font-weight: 500; font-size:15px;">{{ message }}</p>
+      {% endfor %}
+    {% endif %}
+  </div>
+
+</body>
+</html>

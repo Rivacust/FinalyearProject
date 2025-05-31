@@ -1,0 +1,47 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Upload Form</title>
+  <link rel="stylesheet" href="{% static 'css/upload.css' %}">
+</head>
+<body>
+
+  {% if messages %}
+    <div class="popup-message-container" id="popupMessage">
+      {% for message in messages %}
+        {{ message }}
+      {% endfor %}
+    </div>
+  {% endif %}
+
+<div class="form-container" id="uploadForm">
+  <h2>Upload Your Images</h2>
+
+  <form id="zipUploadForm" action="{% url 'upload_zip' %}" method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    <label for="zip_file">Upload ZIP File:</label>
+    <input type="file" name="zip_file" accept=".zip" required>
+    <button type="submit">Upload ZIP</button>
+  </form>
+
+  <br>
+
+  <a href="{% url 'stylesheet' %}" class="home-button">Cancel and go back</a>
+</div>
+
+
+  <script>
+    window.onload = function () {
+      const popup = document.getElementById("popupMessage");
+
+      setTimeout(() => {
+        if (popup) popup.remove();
+      }, 10000);
+    };
+  </script>
+
+</body>
+</html>

@@ -1,0 +1,67 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contact Us</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <link rel="stylesheet" href="{% static 'css/contact.css' %}">
+</head>
+
+<body>
+  <div class="container">
+    <div class="card contact-card">
+      <div class="contact-info">
+        <h2>Contact Info</h2>
+        <p>kolkata<br>Adi saptagram<br></p>
+        <p><a href="user@gmail.com">user@gmail.com</a></p>
+        <p><i class="fas fa-phone"></i> +91111221312</p>
+        <div class="social-icons">
+          <a href="#"><i class="fab fa-facebook-f"></i></a>
+          <a href="#"><i class="fab fa-twitter"></i></a>
+          <a href="#"><i class="fab fa-instagram"></i></a>
+          <a href="#"><i class="fab fa-linkedin-in"></i></a>
+        </div>
+      </div>
+
+      <div class="message-form">
+        <h2>Send a Message</h2>
+        <form id="contactForm">
+          <div class="row fade-in">
+            <div class="field">
+              <label>First Name</label>
+              <input type="text" placeholder="Frist Name">
+            </div>
+            <div class="field">
+              <label>Last Name</label>
+              <input type="text" placeholder="Last Name">
+            </div>
+          </div>
+
+          <div class="row fade-in delay-1">
+            <div class="field">
+              <label>Email Address</label>
+              <input type="email" placeholder="user@gmail.com">
+            </div>
+            <div class="field">
+              <label>Mobile Number</label>
+              <input type="text" placeholder="+91 245576778">
+            </div>
+          </div>
+
+          <div class="field fade-in delay-2">
+            <label>Write your message here...</label>
+            <textarea rows="4" placeholder="Hi"></textarea>
+          </div>
+
+          <button type="submit" class="fade-in delay-3">Send</button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <script src="{% static 'js/contact.js' %}"></script>
+</body>
+</html>

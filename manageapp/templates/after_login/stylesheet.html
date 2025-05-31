@@ -1,0 +1,275 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>After Login</title>
+  <link rel="stylesheet" href="{% static 'css/style.css' %}" />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+  <div class="logo-fixed">
+    <a href="{% url 'proindex' %}" class="smartface-link">SmartFace</a>
+  </div>
+  <a href="{% url 'logout' %}" style="text-decoration: none;">
+    <button class="logout-button"><span>Logout</span></button>
+  </a>  
+  <nav class="navbar">   
+    <ul class="nav-links">
+      <li><a href="{% url 'proindex' %}">Home</a></li>
+      <li class="dropdown">
+        <a href="#" class="dropdown-toggle">Profile ▾</a>
+        <ul class="dropdown-menu">
+          <li><a href="#">Your Details</a></li>
+          <li><a href="#">Settings</a></li>
+          <li class="submenu">
+            <a href="#" class="submenu-toggle">Files ▸</a>
+            <ul class="submenu-list">
+              <li class="upload-submenu">
+                <a href="#" class="upload-toggle">Upload Files ▸</a>
+                <ul class="upload-menu">
+                  <li><a href="{% url 'upload_excel' %}">Upload Details</a></li>
+                  <li><a href="{% url 'upload_zip' %}">Upload Images</a></li>
+                </ul>
+              </li>
+              <li><a href="{% url 'download_attendance' %}">Download Attendance</a></li>
+              <li><a href="{% url 'delete' %}">Delete All Files</a></li>
+              <li><a href="{% url 'delete_account' %}">Delete Account</a></li>
+            </ul>
+          </li>
+        </ul>
+      </li>      
+      <li><a href="{% url 'attendance' %}">Attendance</a></li>
+      <li><a href="{% url 'contact' %}">Contact us</a></li>
+    </ul>
+  </nav>
+
+  <main class="dashboard">
+    <section class="main-content">
+      <div class="top-row">
+        <div class="box time-box">
+          <div class="analog-clock">
+            <div class="number" data-number="3"></div>
+            <div class="number" data-number="4"></div>
+            <div class="number" data-number="5"></div>
+            <div class="number" data-number="6"></div>
+            <div class="number" data-number="7"></div>
+            <div class="number" data-number="8"></div>
+            <div class="number" data-number="9"></div>
+            <div class="number" data-number="10"></div>
+            <div class="number" data-number="11"></div>
+            <div class="number" data-number="12"></div>
+            <div class="number" data-number="1"></div>
+            <div class="number" data-number="2"></div>
+          
+            <div class="hand hour" id="hour-hand"></div>
+            <div class="hand minute" id="minute-hand"></div>
+            <div class="hand second" id="second-hand"></div>
+            <div class="center-dot"></div>
+          </div>
+          <div class="date" id="date"></div>
+          <button class="view-btn"><span>View Attendance</span></button>
+        </div>
+        
+      <!-- Vertical Stat Cards -->
+      <div class="stats-stack">
+        <div class="box stat-card-1">
+          <div class="text">
+            {% if row_count %}
+                <span>{{ row_count }}</span>
+                <p>Total Employee</p>
+            {% else %}
+                <p>No data uploaded yet</p>
+            {% endif %}            
+          </div>
+        </div>
+        <div class="box stat-card-2">
+          <div class="text">
+            {% if not row_count %}
+                <p>No data uploaded yet</p>
+            {% elif recognized_count is not None %}
+                <span>{{ recognized_count }}</span>
+                <p>Today Present</p>
+            {% endif %}        
+          </div>
+        </div>
+      </div>
+        <div class="box mini-bar-box">
+          <canvas id="miniBarChart" width="500" height="300"></canvas>
+        </div>
+      </div>
+
+      <div class="attendance-overview">
+        <h4 class="blue-title">Attendance Overview</h4>
+        <div class="table-wrapper">
+          <table>
+            <thead>
+              <tr><th>ID</th><th>Name</th><th>Date</th><th>Total Attendance</th><th>Percentage</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>123</td><td>XYZ</td><td>19/04/25</td><td>342</td><td>80%</td></tr>
+              <tr><td>124</td><td>WER</td><td>19/04/25</td><td>302</td><td>75%</td></tr>
+              <tr><td>125</td><td>TYU</td><td>19/04/25</td><td>282</td><td>70%</td></tr>
+              <tr><td>126</td><td>TYG</td><td>19/04/25</td><td>230</td><td>60%</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+
+      <footer class="info-footer">
+        <div>
+          <strong>Benefits:</strong><br>
+          Track Attendance From Anywhere<br>
+          Helpful Stats<br>
+          Record Right. It's FREE!
+        </div>
+        <div>
+          <strong>About SmartTrack:</strong><br>
+          SmartTrack was created because my wife, who is a teacher, needed to manage attendance easily.
+        </div>
+        <div>
+          ABOUT US<br>
+          CONTACT US<br>
+          HELP AND SUPPORT
+        </div>
+      </footer>
+      <div class="copyright-footer">
+        &copy; 2025 Attendance Monitoring System. All rights reserved.
+      </div>
+    </section>
+  </main>
+  
+<!-- Safely dump your Python variables to <script type="application/json"> -->
+{{ day_names|json_script:"day-names" }}
+{{ day_wise_data|json_script:"day-wise-data" }}
+{{ row_count|json_script:"row-count" }}
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const barLabels = JSON.parse(document.getElementById('day-names').textContent);
+    const barData = JSON.parse(document.getElementById('day-wise-data').textContent);
+    const rowCount = JSON.parse(document.getElementById('row-count').textContent) || 30;
+
+    new Chart(document.getElementById('miniBarChart'), {
+      type: 'bar',
+      data: {
+        labels: barLabels,
+        datasets: [{
+          label: 'Present',
+          data: barData,
+          backgroundColor: '#FEF6F6'
+        }]
+      },
+      options: {
+        plugins: { legend: { display: false } },
+        scales: {
+          y: {
+            beginAtZero: true,
+            max: rowCount,
+            ticks: {
+              color: 'white',
+              stepSize: 1,
+              callback: function (value) {
+                if (Number.isInteger(value)) return value;
+              }
+            }
+          },
+          x: {
+            ticks: { color: 'white' }
+          }
+        }
+      }
+    });
+
+    const radarLabels = JSON.parse(document.getElementById('radar-labels').textContent);
+    const radarData = JSON.parse(document.getElementById('radar-data').textContent);
+
+    new Chart(document.getElementById('radarChart'), {
+      type: 'radar',
+      data: {
+        labels: radarLabels,
+        datasets: [{
+          label: 'Attendance %',
+          data: radarData,
+          backgroundColor: 'rgba(0,102,204,0.2)',
+          borderColor: '#0066cc',
+          pointBackgroundColor: '#0066cc'
+        }]
+      },
+      options: {
+        scales: {
+          r: {
+            beginAtZero: true,
+            max: 100,
+            pointLabels: { color: 'white' },
+            ticks: { color: 'white' },
+            angleLines: { color: 'rgba(255,255,255,0.2)' },
+            grid: { color: 'rgba(255,255,255,0.1)' }
+          }
+        },
+        plugins: {
+          legend: {
+            labels: { color: 'white' }
+          }
+        }
+      }
+    });
+  });
+</script>
+
+
+<script>
+  function updateClock() {
+    const nowIST = new Date().toLocaleString("en-US", { timeZone: "Asia/Kolkata" });
+    const now = new Date(nowIST);
+
+    const hour = now.getHours() % 12;
+    const minute = now.getMinutes();
+    const second = now.getSeconds();
+
+    const hourDeg = (hour + minute / 60) * 30;
+    const minuteDeg = (minute + second / 60) * 6;
+    const secondDeg = second * 6;
+
+    document.getElementById('hour-hand').style.transform = `rotate(${hourDeg}deg)`;
+    document.getElementById('minute-hand').style.transform = `rotate(${minuteDeg}deg)`;
+    document.getElementById('second-hand').style.transform = `rotate(${secondDeg}deg)`;
+
+    // Update digital time for Kolkata
+    const ampm = now.getHours() >= 12 ? 'PM' : 'AM';
+    const hour12 = (now.getHours() % 12) || 12;
+    const paddedMin = now.getMinutes().toString().padStart(2, '0');
+    document.getElementById('digital-time').innerHTML = `🕛 ${hour12}:${paddedMin} ${ampm}`;
+  }
+
+  setInterval(updateClock, 1000);
+  updateClock();
+</script>
+<script>
+  const dateElement = document.getElementById("date");
+  const today = new Date();
+  
+  // Format: 19th April 2025
+  const day = today.getDate();
+  const month = today.toLocaleString('default', { month: 'long' });
+  const year = today.getFullYear();
+
+  // Add suffix to day (st, nd, rd, th)
+  function getDaySuffix(d) {
+    if (d > 3 && d < 21) return 'th'; // 4th to 20th
+    switch (d % 10) {
+      case 1: return "st";
+      case 2: return "nd";
+      case 3: return "rd";
+      default: return "th";
+    }
+  }
+
+  const suffix = getDaySuffix(day);
+  dateElement.textContent = `${day}${suffix} ${month} ${year}`;
+</script>
+</body>
+</html>

@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Smart Attendance System</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Poppins', sans-serif;
+            height: 100vh;
+            overflow: hidden;
+            color: #fff;
+        }
+
+        h1 {
+            margin-bottom: 20px;
+            font-weight: 600;
+            font-size: 2.5rem;
+            color: #00ffd5;
+            text-shadow: 0 0 10px rgba(0,255,213,0.5);
+            animation: glow 2s ease-in-out infinite alternate;
+        }
+
+        @keyframes glow {
+            from {
+                text-shadow: 0 0 10px #00ffd5;
+            }
+            to {
+                text-shadow: 0 0 20px #00ffd5, 0 0 30px #00ffd5;
+            }
+        }
+
+        .video-container {
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 0 30px rgba(0,0,0,0.4);
+            max-width: 80vw;
+            width: 720px;
+            height: auto;
+            background: #000;
+        }
+
+        #status {
+            margin-top: 20px;
+            font-size: 1.5rem;
+            font-weight: 500;
+            padding: 10px 20px;
+            border-radius: 10px;
+            background-color: rgba(0, 255, 136, 0.1);
+            border: 1px solid #00ff88;
+            box-shadow: 0 0 10px #00ff88;
+            text-align: center;
+            min-height: 50px;
+            transition: all 0.3s ease-in-out;
+        }
+
+        #status.fade-out {
+            animation: fadeOut 1s ease forwards;
+        }
+
+        @keyframes fadeOut {
+            to {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+        }
+
+        .back-button {
+            margin-top: 30px;
+            padding: 10px 20px;
+            font-size: 1rem;
+            border: none;
+            border-radius: 8px;
+            background-color: #00ffd5;
+            color: #000;
+            font-weight: bold;
+            cursor: pointer;
+            box-shadow: 0 0 10px #00ffd5;
+            transition: background-color 0.3s ease;
+            text-decoration: none;
+        }
+
+        .back-button:hover {
+            background-color: #00c2a7;
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2rem;
+            }
+
+            .video-container {
+                width: 90vw;
+            }
+
+            #status {
+                font-size: 1.2rem;
+                padding: 8px 16px;
+            }
+
+            .back-button {
+                font-size: 0.9rem;
+                padding: 8px 16px;
+            }
+        }
+    </style>
+    <script>
+        let pollingInterval;
+
+        function startPolling() {
+            pollingInterval = setInterval(() => {
+                fetch('/get_message/')
+                    .then(response => {
+                        if (response.redirected) {
+                            clearInterval(pollingInterval);
+                            window.location.href = response.url;
+                            return;
+                        }
+                        return response.json();
+                    })
+                    .then(data => {
+                        const statusDiv = document.getElementById("status");
+
+                        if (data && data.message) {
+                            statusDiv.innerText = data.message;
+                            statusDiv.style.opacity = "1";
+                            statusDiv.classList.remove("fade-out");
+
+                            setTimeout(() => {
+                                fetch('/mark_message_seen/');
+                                statusDiv.classList.add("fade-out");
+                            }, 7000);
+                        } else {
+                            statusDiv.innerText = "No face recognized yet.";
+                            statusDiv.style.opacity = "1";
+                        }
+                    })
+                    .catch(err => {
+                        console.error("Polling error:", err);
+                        document.getElementById("status").innerText = "Error fetching status.";
+                        clearInterval(pollingInterval);
+                    });
+            }, 2000);
+        }
+
+        window.onload = startPolling;
+        window.onbeforeunload = () => {
+            clearInterval(pollingInterval);
+            fetch('/stop_video_feed/');
+        };
+    </script>
+</head>
+<body>
+    <h1>SmartFace Attendance System</h1>
+    <div class="video-container">
+        <img src="/video_feed/" alt="Webcam Feed" style="width: 100%; height: auto;" />
+    </div>
+    <div id="status">Initializing webcam...</div>
+    <a href="{% url 'stylesheet' %}" class="back-button">Back to Dashboard</a>
+</body>
+</html>

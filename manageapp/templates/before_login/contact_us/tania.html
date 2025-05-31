@@ -1,0 +1,92 @@
+{% load static %}
+{% block content %}
+<link rel="stylesheet" href="{% static 'css/about.css' %}">
+<div class="container">   
+    <div class="row">
+        <div class="about-col-1">
+            <div class="image-container">
+                <img src="{% static 'images/tania.jpg' %}" alt="Profile Photo">
+                <div class="proindex_box">
+                    <a href="{% url 'proindex' %}"><span>Home</span></a>
+                </div>
+            </div>
+        </div>
+        
+        <div class="about-col-2">
+            <h1 class="sub-title">About Me</h1>
+            <p>
+                Passionate Machine Learning, Data Analytics, and Data Science enthusiast with expertise in supervised and unsupervised learning, deep learning architectures, and optimization techniques. Experienced in building Python-based ML libraries, real-time computer vision applications, and natural language processing projects.
+            </p>
+
+            <div class="tab-titles">
+                <p class="tab-links active-link" onclick="opentab('skills')">Skills</p>
+                <p class="tab-links" onclick="opentab('projects')">Projects</p>
+                <p class="tab-links" onclick="opentab('education')">Education</p>
+            </div>
+
+            <div class="tab-contains active-tab" id="skills">
+                <ul>
+                    <li><span>Supervised Learning</span><br>
+                        Regression: Simple, Multiple, Ridge, Lasso, ElasticNet, SVR<br>
+                        Classification: SVC, Decision Tree, Logistic Regression
+                    </li>
+                    <li><span>Unsupervised Learning</span><br>
+                        Principal Component Analysis (PCA)
+                    </li>
+                    <li><span>Deep Learning</span><br>
+                        TensorFlow, ANN, CNN, RNN, Bidirectional RNN, LSTM, GRU, Encoder-Decoder
+                    </li>
+                    <li><span>Optimization</span><br>
+                        SGD, Nesterov, Adam, AdaGrad, RMSProp
+                    </li>
+                    <li><span>Statistics</span><br>
+                        Descriptive & Inferential Statistics
+                    </li>
+                </ul>
+            </div>
+
+            <div class="tab-contains" id="projects">
+                <ul>
+                    <li><span>Air Canvas</span><br>
+                        Real-time virtual canvas drawing with hand gestures using OpenCV. 
+                        <a href="https://github.com/Sarbik-Mal/Air_Canvas" target="_blank">[GitHub]</a>
+                    </li>
+                    <li><span>Next Word Prediction</span><br>
+                        LSTM-based model that predicts the next word in a sentence.
+                        <a href="https://github.com/Sarbik-Mal/Next_Word_Prediction" target="_blank">[GitHub]</a>
+                    </li>
+                    <li><span>model_study</span><br>
+                        Educational ML library with in-depth model explanations (in development)
+                    </li>
+                </ul>
+            </div>
+
+            <div class="tab-contains" id="education">
+                <ul>
+                    <li><span>B.Tech in Computer Science and Engineering</span><br>Currently pursuing at Academy of Technology, Expected Graduation: <span class="percent_year">2025</span></li>
+                    <li><span>Diploma in Electronics and Telecommunication Engineering</span><br>Completed at Ramakrishna Mission Shilpamandira with <span class="percent_year">85%</span>, Year: <span class="percent_year">2021</span></li>
+                    <li><span>Higher Secondary (12th)</span><br>Completed at Singur Mahamaya High School with <span class="percent_year">72%</span>, Year: <span class="percent_year">2018</span></li>
+                    <li><span>Madhyamik (10th)</span><br>Completed at Singur Mahamaya High School with <span class="percent_year">84.4%</span>, Year: <span class="percent_year">2016</span></li>
+                </ul>
+            </div> 
+        </div>
+    </div>
+</div>
+
+<script>
+    var tablinks = document.getElementsByClassName("tab-links");
+    var tabcontains = document.getElementsByClassName("tab-contains");
+
+    function opentab(tabname) {
+        for (let tablink of tablinks) {
+            tablink.classList.remove("active-link");
+        }
+        for (let tabcontain of tabcontains) {
+            tabcontain.classList.remove("active-tab");
+        }
+        event.currentTarget.classList.add("active-link");
+        document.getElementById(tabname).classList.add("active-tab");
+    }
+</script>
+
+{% endblock %}

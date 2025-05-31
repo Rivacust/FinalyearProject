@@ -1,0 +1,106 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Login & Sign Up</title>
+    <link rel="stylesheet" href="{% static 'css/login.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css">
+</head>
+<body>
+    <div class="wrapper">
+        <div class="container" id="main">
+            <!-- Sign Up -->
+            <div class="sign-up">
+                <form method="POST" action="{% url 'login_signup' %}">
+                    {% csrf_token %}
+                    <h1>Create Account</h1>
+                    <input type="text" name="username" placeholder="Username" required />
+                    <input type="password" name="password1" placeholder="Password" required />
+                    <input type="password" name="password2" placeholder="Confirm Password" required />
+                    <button type="submit" name="signup">Sign Up</button>
+                </form>
+                {% if messages %}
+                <div>
+                    {% for message in messages %}
+                        {% if message.extra_tags == 'signup' %}
+                        <p class="error-message">{{ message }}</p>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+            {% endif %}
+            </div>
+    
+            <!-- Sign In -->
+            <div class="sign-in">
+                <form method="POST" action="{% url 'login_signup' %}">
+                    {% csrf_token %}
+                    <h1>Sign in</h1>
+                    <input type="text" name="username" placeholder="Username" required />
+                    <input type="password" name="password" placeholder="Password" required />
+                    <button type="submit" name="login">Sign In</button>
+                </form>
+                {% if messages %}
+                    {% for message in messages %}
+                        {% if 'login' in message.extra_tags %}
+                        <p class="error-message">{% for message in messages %}{{ message|safe }}{% endfor %}</p>
+                        {% endif %}
+                    {% endfor %}
+                {% endif %}
+    
+            </div>
+    
+            <!-- Overlay Panels -->
+            <div class="overlay-container">
+                <div class="overlay">
+                    <div class="overlay-left">
+                        <h2>Hello!</h2>
+                        <p>To continue please Sign Up with your name, email and password</p>
+                        <h3>or</h3>
+                        <button id="signIn">Sign In</button>
+                        <div class="password-rules">
+                            <p><strong>Password must include:</strong></p>
+                            <ul>
+                                <li>At least 8 characters</li>
+                                <li>Should not resemble your username</li>
+                                <li>A mix of letters, numbers, and symbols</li>
+                            </ul>
+                        </div>                    
+                    </div>
+                    <div class="overlay-right">
+                        <h2>Welcome Back!</h2>
+                        <p>To continue please Sign In with your email and password</p>
+                        <h3>or</h3>
+                        <button id="signUp">Sign Up</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="home_box">
+            <a href="{% url 'proindex' %}"><span>Home</span></a>
+        </div>
+    </div>
+
+    <script>
+        const signUpButton = document.getElementById('signUp');
+        const signInButton = document.getElementById('signIn');
+        const main = document.getElementById('main');
+    
+        signUpButton.addEventListener('click', () => {
+            main.classList.add("right-panel-active");
+        });
+    
+        signInButton.addEventListener('click', () => {
+            main.classList.remove("right-panel-active");
+        });
+    
+        // Retain active panel on page reload or validation errors
+        const activeForm = "{{ active_form }}";
+        if (activeForm === "signup") {
+            main.classList.add("right-panel-active");
+        } else {
+            main.classList.remove("right-panel-active");
+        }
+    </script>
+    
+</body>
+</html>

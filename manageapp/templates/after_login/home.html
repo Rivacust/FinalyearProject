@@ -1,0 +1,55 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Home page</title>
+    <link rel="stylesheet" href="{% static 'css/home.css' %}">
+</head>
+<body>
+    <div class="container">
+        <div class="sidebar">
+            <h2>Menu</h2>
+            <ul>
+                <li><a href="#" onclick="showSection('profile')">Profile</a></li>
+                <li><a href="#" onclick="showSection('settings')">Settings</a></li>
+                <li><a href="#" onclick="showSection('security')">Security</a></li>
+                <li><a href="#" onclick="showSection('edit')">Edit</a></li>
+            </ul>
+        </div>
+        <div class="content">
+            <div id="profile" class="box hidden">
+                <h3>Profile Details</h3>
+                <div class="profile-photo">
+                    <img id="profileImage" src="{% static 'user.png' %}" alt="Profile Photo">
+                    <input type="file" accept="image/*" onchange="previewImage(event)">
+                </div>
+                <p>Name: <input type="text" value="User Name "></p>
+                <p>Email: <input type="text" value="User@example.com"></p>
+                <button onclick="saveChanges('profile')">Save</button>
+            </div>
+            <div id="settings" class="box hidden">
+                <h3>Settings</h3>
+                <p>Notification: <input type="checkbox" checked></p>
+                <p>Privacy: <input type="checkbox"></p>
+                <button onclick="saveChanges('settings')">Save</button>
+            </div>
+            <div id="security" class="box hidden">
+                <h3>Security Settings</h3>
+                <p>Change Password: <input type="password" placeholder="New Password"></p>
+                <p>Two-Factor Authentication: <input type="checkbox" checked></p>
+                <button onclick="saveChanges('security')">Save</button>
+            </div>
+            <div id="edit" class="box hidden">
+                <h3>Edit Information</h3>
+                <p>Address: <input type="text" value=""></p>
+                <p>Phone: <input type="text" value="(123) 456-7890"></p>
+                <button onclick="saveChanges('edit')">Save</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="{% static 'js/home.js' %}"></script>
+</body>
+</html>
