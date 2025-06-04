@@ -1,0 +1,11 @@
+services:
+  - type: web
+    name: face-recognition
+    env: docker
+    plan: free
+    dockerfilePath: ./Dockerfile
+    envVars:
+      - key: DEBUG
+        value: "False"
+      - key: DJANGO_SECRET_KEY
+        value: your-secret-key
