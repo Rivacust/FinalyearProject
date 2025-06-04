@@ -1,6 +1,5 @@
-gunicorn==23.0.0
 python==3.9.12
-
+gunicorn==23.0.0
 packaging==25.0
 pip install gunicorn
 pip install dj-database-url
