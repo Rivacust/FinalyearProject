@@ -3,3 +3,14 @@ packaging==25.0
 pip install gunicorn
 pip install dj-database-url
 pip install whitenoise
+Django==4.2.20
+numpy
+opencv-python
+face_recognition
+mediapipe
+pandas
+pymongo
+Pillow
+dj-database-url
+whitenoise
+gunicorn
