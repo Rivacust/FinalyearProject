@@ -8,3 +8,4 @@ mediapipe
 pandas
 Pillow
 gunicorn
+dj-database-url
